@@ -13,5 +13,5 @@ urlpatterns = [
     "games/<int:game_id>/dispositivos/",
     views.dispositivos_game,
     name="por_game",
-)
-]
+),
+path("dispositivos/", views.catalogo, name="catalogo")] 
