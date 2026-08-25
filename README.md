@@ -108,11 +108,3 @@ El proyecto fue realizado con fines educativos para practicar el desarrollo back
 👨‍💻 Autor
 
 Matías Quiroz
-
-Proyecto disponible en GitHub:
-
-https://github.com/matiasquiroztrabajos-code/django-p2c1-MatiasQuiroz
-
-:::
-
-Si querés, también te puedo hacer una **versión más profesional tipo portfolio**, con badges de Python/Django, screenshots, funcionalidades, endpoints y una sección de autor para que quede mucho mejor presentado en GitHub.{"fallbackMarkdown":"","reference":{"matched_text":" ","prefix":null,"start_idx":3474,"end_idx":3474,"safe_urls":[],"refs":[],"alt":"","prompt_text":null,"type":"sources_footnote","sources":[{"title":"GitHub - matiasquiroztrabajos-code/django-p2c1-MatiasQuiroz: Repo Python clase de backend · GitHub","url":"https://github.com/matiasquiroztrabajos-code/django-p2c1-MatiasQuiroz","attribution":"GitHub"}],"has_images":false},"showLoginRequiredCard":false}
