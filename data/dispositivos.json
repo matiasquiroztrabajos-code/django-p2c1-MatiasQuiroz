@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "nombre": "Climatizador Sala de Juntas",
+        "consumo_kwh": 20,
+        "zona_id": 1,
+        "categoria_id": 1
+    },
+    {
+        "id": 2,
+        "nombre": "Iluminación Pasillo Central",
+        "consumo_kwh": 25,
+        "zona_id": 1,
+        "categoria_id": 2
+    },
+    {
+        "id": 3,
+        "nombre": "PC Recepción",
+        "consumo_kwh": 30,
+        "zona_id": 1,
+        "categoria_id": 4
+    },
+    {
+        "id": 4,
+        "nombre": "Aire Acondicionado Oficinas",
+        "consumo_kwh": 40,
+        "zona_id": 1,
+        "categoria_id": 1
+    },
+    {
+        "id": 5,
+        "nombre": "Refrigerador Industrial",
+        "consumo_kwh": 320,
+        "zona_id": 2,
+        "categoria_id": 3
+    },
+    {
+        "id": 6,
+        "nombre": "Iluminación Nave Principal",
+        "consumo_kwh": 150,
+        "zona_id": 2,
+        "categoria_id": 2
+    },
+    {
+        "id": 7,
+        "nombre": "Climatizador Zona de Ensamblaje",
+        "consumo_kwh": 200,
+        "zona_id": 2,
+        "categoria_id": 1
+    },
+    {
+        "id": 8,
+        "nombre": "Sistema de Refrigeración Secundario",
+        "consumo_kwh": 180,
+        "zona_id": 2,
+        "categoria_id": 3
+    },
+    {
+        "id": 9,
+        "nombre": "Iluminación Bodega",
+        "consumo_kwh": 15,
+        "zona_id": 3,
+        "categoria_id": 2
+    },
+    {
+        "id": 10,
+        "nombre": "Refrigerador de Insumos",
+        "consumo_kwh": 45,
+        "zona_id": 3,
+        "categoria_id": 3
+    }
+]

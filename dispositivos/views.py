@@ -1,5 +1,7 @@
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render
+
+from .services import cargar_categorias, cargar_dispositivos, cargar_zonas
 
 
 def inicio(request):
@@ -9,44 +11,67 @@ def inicio(request):
         "asignatura": "Programación Back End",
     }
 
-    return render(
-        request,
-        "dispositivos/inicio.html",
-        contexto
-    )
+    return render(request, "dispositivos/inicio.html", contexto)
 
 
-def dispositivos_zona(request, zona_id):
-    if zona_id != 3:
-        return HttpResponse(
-            "Zona no encontrada", status=404
+def listado_zonas(request):
+    zonas = cargar_zonas()
+    dispositivos = cargar_dispositivos()
+
+    zonas_con_resumen = []
+    for zona in zonas:
+        cantidad_dispositivos = sum(
+            1 for dispositivo in dispositivos
+            if dispositivo["zona_id"] == zona["id"]
         )
+        zonas_con_resumen.append({
+            "id": zona["id"],
+            "nombre": zona["nombre"],
+            "limite_kwh": zona["limite_kwh"],
+            "cantidad_dispositivos": cantidad_dispositivos,
+        })
 
-    return HttpResponse(
-        f"Dispositivos de la zona {zona_id}"
-    )
+    contexto = {"zonas": zonas_con_resumen}
+
+    return render(request, "dispositivos/zonas.html", contexto)
 
 
-def dispositivos_game(request, game_id):
-    if game_id != 5:
-        return HttpResponse(
-            "No existe juego lo siento perdon", status=404
+def detalle_zona(request, zona_id):
+    zonas = cargar_zonas()
+    zona = next((z for z in zonas if z["id"] == zona_id), None)
+
+    if zona is None:
+        return HttpResponse("Zona no encontrada", status=404)
+
+    categorias = cargar_categorias()
+    dispositivos = cargar_dispositivos()
+
+    dispositivos_zona = []
+    consumo_total = 0
+    for dispositivo in dispositivos:
+        if dispositivo["zona_id"] != zona["id"]:
+            continue
+
+        categoria = next(
+            (c for c in categorias if c["id"] == dispositivo["categoria_id"]),
+            None,
         )
+        nombre_categoria = categoria["nombre"] if categoria else "Sin categoría"
 
-    return HttpResponse(
-        f"Jueguito numero {game_id}"
-    )
+        dispositivos_zona.append({
+            "nombre": dispositivo["nombre"],
+            "categoria": nombre_categoria,
+            "consumo_kwh": dispositivo["consumo_kwh"],
+        })
+        consumo_total += dispositivo["consumo_kwh"]
 
+    estado = "ALERTA" if consumo_total > zona["limite_kwh"] else "NORMAL"
 
-def catalogo(request):
-    dispositivos = [
-        {"nombre": "Medidor inteligente", "estado": "Activo"},
-        {"nombre": "Sensor de temperatura", "estado": "Activo"},
-        {"nombre": "Climatizador", "estado": "Revisión"},
-    ]
+    contexto = {
+        "zona": zona,
+        "dispositivos": dispositivos_zona,
+        "consumo_total": consumo_total,
+        "estado": estado,
+    }
 
-    return render(
-        request,
-        "dispositivos/catalogo.html",
-        {"dispositivos": dispositivos},
-    )
+    return render(request, "dispositivos/zona_detalle.html", contexto)

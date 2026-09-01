@@ -1,19 +1,75 @@
+{% load django_bootstrap5 %}
 <!-- templates/base.html -->
 <!doctype html>
 <html lang="es">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}EcoEnergy{% endblock %}</title>
+        {% bootstrap_css %}
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <style>
+            :root {
+                --eco-verde: #1f7a4d;
+                --eco-verde-oscuro: #145c38;
+                --eco-gris: #f4f6f5;
+            }
+
+            body {
+                background-color: var(--eco-gris);
+            }
+
+            .navbar-eco {
+                background-color: var(--eco-verde-oscuro);
+            }
+
+            .navbar-eco .navbar-brand,
+            .navbar-eco .nav-link {
+                color: #ffffff;
+            }
+
+            .navbar-eco .nav-link:hover {
+                color: #d7f5e3;
+            }
+
+            .btn-eco {
+                background-color: var(--eco-verde);
+                border-color: var(--eco-verde);
+                color: #ffffff;
+            }
+
+            .btn-eco:hover {
+                background-color: var(--eco-verde-oscuro);
+                border-color: var(--eco-verde-oscuro);
+                color: #ffffff;
+            }
+
+            .table-responsive-eco {
+                max-height: 420px;
+                overflow-y: auto;
+            }
+        </style>
     </head>
 
     <body>
-        <nav>
-            <a href="{% url 'dispositivos:inicio' %}">Inicio</a>
-            <a href="{% url 'dispositivos:catalogo' %}">Dispositivos</a>
+        <nav class="navbar navbar-expand-lg navbar-eco mb-4">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="{% url 'dispositivos:inicio' %}">
+                    <i class="bi bi-lightning-charge-fill"></i> EcoEnergy
+                </a>
+                <div class="navbar-nav">
+                    <a class="nav-link" href="{% url 'dispositivos:inicio' %}">Inicio</a>
+                    <a class="nav-link" href="{% url 'dispositivos:zonas' %}">Zonas</a>
+                </div>
+            </div>
         </nav>
 
-        <main>
+        <main class="container pb-5">
             {% block content %}{% endblock %}
         </main>
+
+        {% bootstrap_javascript %}
     </body>
 </html>

@@ -1,69 +1,134 @@
-Tecnologías utilizadas
-Python
-Django 6.1
-HTML / Templates de Django
-SQLite (base de datos por defecto de Django)
-Git / GitHub
+# EcoEnergy — Fase 1 (Programación Back End · TI3041)
 
+Aplicación Django del lado del servidor para consultar zonas de consumo
+energético y los dispositivos instalados en cada una. Esta primera versión
+utiliza archivos JSON como fuente de datos.
 
-Instalación
-1. Clonar el repositorio
-git clone https://github.com/matiasquiroztrabajos-code/django-p2c1-MatiasQuiroz.git
+## Tecnologías utilizadas
 
-2. Ingresar al proyecto
-cd django-p2c1-MatiasQuiroz
+- Python
+- Django 6.1
+- django-bootstrap5 (Bootstrap 5 integrado a los Templates)
+- HTML / Templates de Django (herencia con `base.html`)
+- Archivos JSON como fuente de datos (`data/`)
+- Git / GitHub
 
-3. Crear un entorno virtual
+## Requisitos previos
 
-En Windows:
+- Python 3.11 o superior instalado.
+- Git instalado.
 
-python -m venv venv
-venv\Scripts\activate
+## Instalación
 
+1. Clonar el repositorio:
 
-En Linux / macOS:
+   ```bash
+   git clone https://github.com/matiasquiroztrabajos-code/django-p2c1-MatiasQuiroz.git
+   cd django-p2c1-MatiasQuiroz
+   ```
 
-python3 -m venv venv
-source venv/bin/activate
+2. Crear el entorno virtual:
 
-4. Instalar las dependencias
-pip install -r requirements.txt
+   En Git Bash / Linux / macOS:
 
-Ejecutar el proyecto
+   ```bash
+   python -m venv .venv
+   source .venv/Scripts/activate   # Git Bash en Windows
+   # source .venv/bin/activate     # Linux / macOS
+   ```
 
-Antes de iniciar el servidor, ejecutar las migraciones:
+   En PowerShell:
 
-python manage.py migrate
+   ```powershell
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   ```
 
+3. Instalar las dependencias:
 
-Luego iniciar el servidor de desarrollo:
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
+## Ejecución
+
+```bash
+python manage.py check
 python manage.py runserver
+```
 
+El proyecto estará disponible en `http://127.0.0.1:8000/`.
 
-El proyecto estará disponible en:
+## Rutas funcionales
 
-http://127.0.0.1:8000/
+| Ruta                         | Descripción                                              |
+|-------------------------------|-----------------------------------------------------------|
+| `/`                            | Página de inicio de EcoEnergy.                             |
+| `/zonas/`                      | Listado de zonas registradas en `data/zonas.json`.         |
+| `/zonas/<id>/`                 | Detalle de una zona: dispositivos, categoría, consumo total y estado (NORMAL/ALERTA). Responde `404` si el `id` no existe. |
 
-Aplicación dispositivos
+## Fuente de datos
 
-La aplicación principal del proyecto se encuentra en la carpeta dispositivos.
+La aplicación carga tres archivos JSON ubicados en `data/`:
 
-Dentro de ella se encuentran los archivos principales de una aplicación Django:
+- `data/zonas.json`: zonas de consumo (`id`, `nombre`, `limite_kwh`).
+- `data/categorias.json`: categorías de dispositivo (`id`, `nombre`,
+  `descripcion`).
+- `data/dispositivos.json`: dispositivos (`id`, `nombre`, `consumo_kwh`,
+  `zona_id`, `categoria_id`).
 
-models.py: definición de los modelos y estructura de datos.
-views.py: lógica encargada de procesar las solicitudes.
-urls.py: rutas asociadas a la aplicación.
-admin.py: configuración para el panel de administración de Django.
-tests.py: espacio destinado a las pruebas.
-migrations/: archivos relacionados con las migraciones de la base de datos.
+La función `dispositivos/services.py` carga cada archivo con `json.load`, y
+las Views (`dispositivos/views.py`) resuelven las relaciones entre archivos
+mediante los identificadores (`zona_id`, `categoria_id`), calculan el
+consumo total por zona y determinan el estado `NORMAL` o `ALERTA`
+comparando `consumo_total` contra `limite_kwh`.
 
+## Pruebas realizadas
 
-Dependencias
+- `python manage.py check` → sin errores.
+- `GET /zonas/` → lista las 4 zonas registradas.
+- `GET /zonas/1/` → zona con consumo bajo el límite → estado `NORMAL`.
+- `GET /zonas/2/` → zona con consumo sobre el límite → estado `ALERTA`.
+- `GET /zonas/4/` → zona sin dispositivos → mensaje "Esta zona no tiene
+  dispositivos".
+- `GET /zonas/99/` → identificador inexistente → `404`.
 
-Las principales dependencias utilizadas se encuentran especificadas en requirements.txt:
+## Estado actual y próximos pasos
 
-Django==6.1
+- Completado: entorno, proyecto Django, app `dispositivos`, Templates con
+  herencia y Bootstrap, carga de datos desde JSON, listado y detalle de
+  zonas con cálculo dinámico de consumo y estado.
+- Fuera de alcance en esta fase (según enunciado): Models, migraciones,
+  ORM, CRUD, formularios, autenticación, permisos y soft delete.
+- Próximo paso (Fase 2, cuando se publique): a definir según el
+  instrumento completo de la Evaluación Sumativa I.
+
+## Aplicación `dispositivos`
+
+La aplicación principal del proyecto se encuentra en la carpeta
+`dispositivos`. Dentro de ella:
+
+- `views.py`: lógica encargada de procesar las solicitudes (inicio,
+  listado de zonas, detalle de zona).
+- `services.py`: funciones de carga de los archivos JSON.
+- `urls.py`: rutas asociadas a la aplicación.
+- `admin.py`, `models.py`, `migrations/`: presentes por defecto de
+  `startapp`, sin uso en esta fase (no se solicitan Models ni ORM).
+- `tests.py`: espacio destinado a pruebas.
+
+## Dependencias
+
+Las dependencias del proyecto están especificadas en `requirements.txt`:
+
+```
 asgiref==3.12.1
+Django==6.1
+django-bootstrap5==26.3
 sqlparse==0.6.0
 tzdata==2026.3
+```
+
+`django-bootstrap5` se utiliza para cargar los estilos y scripts de
+Bootstrap 5 desde los Templates (`{% bootstrap_css %}` y
+`{% bootstrap_javascript %}` en `base.html`), evitando escribir el HTML de
+integración manualmente en cada página.

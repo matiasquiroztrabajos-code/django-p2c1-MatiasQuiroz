@@ -5,7 +5,12 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ sistema }}</h1>
-    <p>{{ mensaje }}</p>
-    <p>Curso: {{ asignatura }}</p>
+    <div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+        <h1 class="display-6 fw-bold">{{ sistema }}</h1>
+        <p class="fs-5 text-muted">{{ mensaje }}</p>
+        <p class="mb-4">Curso: {{ asignatura }}</p>
+        <a class="btn btn-eco btn-lg" href="{% url 'dispositivos:zonas' %}">
+            <i class="bi bi-geo-alt-fill"></i> Ver zonas de consumo
+        </a>
+    </div>
 {% endblock %}

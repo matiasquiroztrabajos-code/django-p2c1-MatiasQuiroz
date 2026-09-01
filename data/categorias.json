@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "nombre": "Climatización",
+        "descripcion": "Equipos de calefacción, ventilación y aire acondicionado"
+    },
+    {
+        "id": 2,
+        "nombre": "Iluminación",
+        "descripcion": "Sistemas de luminarias interiores y exteriores"
+    },
+    {
+        "id": 3,
+        "nombre": "Refrigeración",
+        "descripcion": "Equipos de frío para conservación de insumos y productos"
+    },
+    {
+        "id": 4,
+        "nombre": "Cómputo",
+        "descripcion": "Equipos informáticos y de procesamiento de datos"
+    }
+]
