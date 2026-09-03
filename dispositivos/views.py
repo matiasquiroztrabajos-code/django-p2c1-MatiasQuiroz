@@ -35,6 +35,28 @@ def listado_zonas(request):
 
     return render(request, "dispositivos/zonas.html", contexto)
 
+def resumen(request):
+    zonas = cargar_zonas()
+    dispositivos = cargar_dispositivos()
+
+    zonas_con_resumen = []
+    for zona in zonas:
+        cantidad_dispositivos = sum(
+            1 for dispositivo in dispositivos
+            if dispositivo["zona_id"] == zona["id"]
+        )
+        zonas_con_resumen.append({
+            "id": zona["id"],
+            "nombre": zona["nombre"],
+            "limite_kwh": zona["limite_kwh"],
+            "cantidad_dispositivos": cantidad_dispositivos,
+        })
+
+    contexto = {"zonas": zonas_con_resumen}
+
+    return render(request, "dispositivos/resumen.html", contexto)
+
+
 
 def detalle_zona(request, zona_id):
     zonas = cargar_zonas()

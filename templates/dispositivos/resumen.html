@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Zonas | EcoEnergy
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">
+        <i class="bi bi-geo-alt-fill text-success"></i> Resumen de todas las zonas
+    </h1>
+
+    {% if zonas %}
+        <div class="row g-4">
+            {% for zona in zonas %}
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ zona.nombre }}</h5>
+                            <p class="card-text mb-1">
+                                <i class="bi bi-speedometer2"></i>
+                                Límite: {{ zona.limite_kwh }} kWh
+                            </p>
+                            <p class="card-text mb-3">
+                                <i class="bi bi-cpu"></i>
+                                Dispositivos: {{ zona.cantidad_dispositivos }}
+                            </p>
+                            <p class="card-text mb-3">
+                                <i class="bi bi-cpu"></i>
+                                Consumo de kwh: {{ dispositivos.consumo_kwh }} 
+                            </p>
+                            <p class="card-text mb-3">
+                                <i class="bi bi-cpu"></i>
+                                Estado: {{ estado }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> No hay zonas disponibles.
+        </div>
+    {% endif %}
+{% endblock %}

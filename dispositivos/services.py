@@ -25,3 +25,6 @@ def cargar_categorias():
 
 def cargar_dispositivos():
     return _cargar_json("dispositivos.json")
+
+def cargar_resumen():
+    return _cargar_json("resumen.json")
